@@ -8,7 +8,7 @@ import App from './App';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <div className="container">
+  <div className="container border border-bottom-0 border-light shadow-sm">
     <App />
   </div>
 );

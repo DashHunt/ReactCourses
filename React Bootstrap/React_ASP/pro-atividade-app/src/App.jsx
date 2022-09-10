@@ -1,5 +1,11 @@
 import { useState } from "react";
-import ListGroup from "react-bootstrap/ListGroup";
+
+import Card from "react-bootstrap/Card";
+import Alert from "react-bootstrap/Alert";
+import Button from "react-bootstrap/Button";
+
+import Topbar from "./components/Navbar";
+import AlertDismissibleExample from "./components/Alert";
 
 import "./App.css";
 
@@ -29,31 +35,70 @@ function App() {
 
   const addToArray = (e) => {
     e.preventDefault();
-    const atividade = {
+    if (id != "" && descricao != "") {
+      const atividade = {
         id,
         descricao,
-    };
-    setAtividades([... atividades, {...atividade}])
-    console.log(atividades)
+      };
+      setAtividades([...atividades, { ...atividade }]);
+    } else {
+      alert("Error: Insira um ID e uma descricao para adicionar");
+    }
   };
 
   return (
     <>
-      <form>
-        <input id="id" type="text" placeholder="id" onChange={(e) => {setId(parseInt(e.target.value))}}/>
-        <input id="descricao" type="text" placeholder="descricao" onChange={(e) => {setDescricao(e.target.value)}}/>
-        <button onClick={addToArray}>+ Atividade</button>
+      <Topbar></Topbar>
+      <br />
+      <form className="row g-3">
+        <div className="col-md-6">
+          <label htmlFor="id" className="form-label">
+            ID
+          </label>
+          <input
+            id="id"
+            type="text"
+            className="form-control"
+            onChange={(e) => {
+              setId(parseInt(e.target.value));
+            }}
+          />
+        </div>
+        <div className="col-md-6">
+          <label htmlFor="descricao" className="form-label">
+            Descrição
+          </label>
+          <input
+            id="descricao"
+            type="text"
+            className="form-control"
+            onChange={(e) => {
+              setDescricao(e.target.value);
+            }}
+          />
+        </div>
+        <hr />
+        <div className="col-12">
+          <button className="btn btn-outline-secondary" onClick={addToArray}>
+            + Atividade
+          </button>
+        </div>
       </form>
+
       <div className="mt-3">
-        <ListGroup>
-          {atividades.map((atividade) => {
-            return (
-              <ListGroup.Item key={atividade.id}>
-                {atividade.descricao}
-              </ListGroup.Item>
-            );
-          })}
-        </ListGroup>
+        {atividades.map((atividade) => {
+          return (
+            <div key={atividade.id}>
+              <Card>
+                <Card.Header>ID: {atividade.id}</Card.Header>
+                <Card.Body>
+                  <Card.Text>{atividade.descricao}</Card.Text>
+                </Card.Body>
+              </Card>
+              <br />
+            </div>
+          );
+        })}
       </div>
     </>
   );
